@@ -1,12 +1,11 @@
 package com.example.domain;
 
-import java.util.List;
-
-public class Article {
+public class Comment {
+	
 	private Integer id;
 	private String name;
 	private String content;
-	private List<Comment> commentList;
+	private Integer articleId;
 	public Integer getId() {
 		return id;
 	}
@@ -25,14 +24,15 @@ public class Article {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public List<Comment> getCommentList() {
-		return commentList;
+	public Integer getArticleId() {
+		return articleId;
 	}
-	public void setCommentList(List<Comment> commentList) {
-		this.commentList = commentList;
+	public void setArticleId(Integer articleId) {
+		this.articleId = articleId;
 	}
 	@Override
 	public String toString() {
-		return "Article [id=" + id + ", name=" + name + ", content=" + content + ", commentList=" + commentList + "]";
+		return "Comment [id=" + id + ", name=" + name + ", content=" + content + ", articleId=" + articleId + "]";
 	}
+
 }
