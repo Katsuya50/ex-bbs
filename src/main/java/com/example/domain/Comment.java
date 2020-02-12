@@ -1,10 +1,20 @@
 package com.example.domain;
 
+/**
+ * コメントのドメイン.
+ * 
+ * @author katsuya.fujishima
+ *
+ */
 public class Comment {
 	
+	/**	id */
 	private Integer id;
+	/**	投稿者名 */
 	private String name;
+	/**	投稿内容 */
 	private String content;
+	/**	記事のid */
 	private Integer articleId;
 	public Integer getId() {
 		return id;
