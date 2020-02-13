@@ -35,10 +35,10 @@ public class ArticleRepository {
 	private static final ResultSetExtractor<List<Article>> ARTICLE_RS_EXTRACTOR = (rs) -> {
 //		Article article = null;
 //		Comment comment = null;
+		List<Comment> commentList = null;
 		List<Article> articleList = new ArrayList<>();
 		int num = 0;
 		while(rs.next()) {
-			List<Comment> commentList = null;
 			int id = rs.getInt("id");
 			if(num != id) {
 				Article article = new Article();
@@ -54,7 +54,11 @@ public class ArticleRepository {
 			comment.setName(rs.getString("com_name"));
 			comment.setContent(rs.getString("com_content"));
 			comment.setArticleId(rs.getInt("article_id"));
-			commentList.add(comment);
+			if(comment.getArticleId() == 0) {
+				commentList = null;
+			}else {
+				commentList.add(comment);
+			}
 			num = id;
 		}
 		return articleList;
@@ -70,8 +74,9 @@ public class ArticleRepository {
 	public List<Article> findAll() {
 		String sql = "SELECT a.id as id, a.name as name, a.content as content, "
 					+ "c.id as com_id, c.name as com_name, c.content as com_content, c.article_id as article_id "
-					+ "FROM " + TABLE_NAME_1 + " as a, " + TABLE_NAME_2 + " as c "
-					+ "WHERE a.id = c.article_id ORDER BY a.id DESC, c.id DESC";
+					+ "FROM " + TABLE_NAME_1 + " as a "
+					+ "LEFT OUTER JOIN " + TABLE_NAME_2 + " as c "
+					+ "ON a.id = c.article_id ORDER BY a.id DESC, c.id DESC";
 		List<Article> articleList = template.query(sql, ARTICLE_RS_EXTRACTOR);
 		return articleList;
 	}
