@@ -3,14 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.error{
+		color:red;
+	}
+</style>
 </head>
 <body>
 	<h1>掲示板アプリケーション</h1>
 	<form action="bbs.html" th:action="@{/insert-article}" method="post"
 	th:object="${articleForm}">
-		<label for="article-name">投稿者名:</label><br>
+		<label for="article-name">投稿者名:</label>
+		<span class="error" th:errors="*{name}">error</span><br>
 		<input id="article-name" name="name" th:field="*{name}"><br>
-		<label for="article-content">投稿内容:</label><br>
+		<label for="article-content">投稿内容:</label>
+		<span class="error" th:errors="*{content}">error</span><br>
 		<textarea id="article-content" rows="3" cols="25"
 		name="content" th:field="*{content}"></textarea><br>
 		<button>記事投稿</button>
@@ -52,13 +59,15 @@
 		</div>
 		<form action="bbs.html" th:action="@{/insert-comment}" method="post"
 		th:object="${commentForm}">
-			<label for="comment-name">名前:</label><br>
+			<label for="comment-name">名前:</label>
+			<span th:if="${articleId == article.id}" class="error" th:errors="*{name}">error</span><br>
 			<input id="comment-name" name="name" th:field="*{name}"><br>
-			<label for="comment-content">コメント:</label><br>
+			<label for="comment-content">コメント:</label>
+			<span th:if="${articleId == article.id}" class="error" th:errors="*{content}">error</span><br>
 			<textarea id="comment-content" rows="3" cols="25"
 			name="content" th:field="*{content}"></textarea><br>
 			<input type="hidden" name="articleId" th:value="${article.id}">
-			<button>記事投稿</button>
+			<button>コメント投稿</button>
 		</form><br>
 	</div>
 </body>
