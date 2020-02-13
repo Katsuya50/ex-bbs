@@ -26,7 +26,7 @@ public class ArticleController {
 	private ArticleRepository repository;
 	
 	/**
-	 * 既に投稿された内容を含んだ掲示板画面をフォワードするメソッド.
+	 * 既に投稿された内容を含んだ掲示板画面にフォワードするメソッド.
 	 * 
 	 * @param model リクエストスコープ
 	 * @return 掲示板画面
