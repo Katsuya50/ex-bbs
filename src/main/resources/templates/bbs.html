@@ -53,7 +53,8 @@
 			<label for="comment-content">コメント:</label><br>
 			<textarea id="comment-content" rows="3" cols="25"
 			name="content" th:field="*{content}"></textarea><br>
-			<button name="articleId" th:value="${article.id}">記事投稿</button>
+			<input type="hidden" name="articleId" th:value="${article.id}">
+			<button>記事投稿</button>
 		</form><br>
 	</div>
 </body>
