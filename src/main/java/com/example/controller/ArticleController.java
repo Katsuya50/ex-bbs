@@ -62,7 +62,7 @@ public class ArticleController {
 	 * 
 	 * @param articleForm ブラウザから受け取ったフォームクラス
 	 * @param model リクエストスコープ
-	 * @return indexメソッド
+	 * @return toIndexメソッドへリダイレクト
 	 */
 	@RequestMapping("/insert-article")
 	public String insertArticle(ArticleForm articleForm, Model model) {
@@ -70,7 +70,7 @@ public class ArticleController {
 		BeanUtils.copyProperties(articleForm, article);
 		articleRepository.insert(article);
 		model.addAttribute("insertedArticleMessage", "記事の投稿が完了しました。");
-		return index(model);
+		return "redirect:/to-index";
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class ArticleController {
 	 * 
 	 * @param commentForm コメントを受けとったフォームクラス
 	 * @param model リクエストスコープ
-	 * @return indexメソッド
+	 * @return toIndexメソッドへリダイレクト
 	 */
 	@RequestMapping("/insert-comment")
 	public String insertComment(CommentForm commentForm, Model model) {
@@ -87,6 +87,30 @@ public class ArticleController {
 		comment.setArticleId(Integer.parseInt(commentForm.getArticleId()));
 		commentRepository.insert(comment);
 		model.addAttribute("insertedCommentMessage", "コメントの投稿が完了しました。");
+		return "redirect:/to-index";
+	}
+	
+	/**
+	 * 記事とコメントを削除するメソッド.
+	 * 
+	 * @param articleId 記事id
+	 * @return toIndexメソッドへリダイレクト
+	 */
+	@RequestMapping("/delete-article")
+	public String deleteArticle(String articleId) {
+		commentRepository.deleteByArticleId(Integer.parseInt(articleId));
+		articleRepository.deleteById(Integer.parseInt(articleId));
+		return "redirect:/to-index";
+	}
+	
+	/**
+	 * リダイレクト用indexメソッドを呼ぶメソッド.
+	 * 
+	 * @param model リクエストスコープ
+	 * @return indexメソッド
+	 */
+	@RequestMapping("/to-index")
+	public String toIndex(Model model) {
 		return index(model);
 	}
 
