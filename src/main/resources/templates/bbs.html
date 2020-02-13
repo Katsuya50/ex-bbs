@@ -7,12 +7,12 @@
 <body>
 	<h1>掲示板アプリケーション</h1>
 	<form action="bbs.html" th:action="@{/insert-article}" method="post"
-	>
+	th:object="${articleForm}">
 		<label for="article-name">投稿者名:</label><br>
-		<input id="article-name" name="name"><br>
+		<input id="article-name" name="name" th:field="*{name}"><br>
 		<label for="article-content">投稿内容:</label><br>
 		<textarea id="article-content" rows="3" cols="25"
-		name="content"></textarea><br>
+		name="content" th:field="*{content}"></textarea><br>
 		<button>記事投稿</button>
 	</form>
 	
