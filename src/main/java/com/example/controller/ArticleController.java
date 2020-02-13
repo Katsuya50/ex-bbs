@@ -73,6 +73,13 @@ public class ArticleController {
 		return index(model);
 	}
 	
+	/**
+	 * コメントを投稿するメソッド.
+	 * 
+	 * @param commentForm コメントを受けとったフォームクラス
+	 * @param model リクエストスコープ
+	 * @return indexメソッド
+	 */
 	@RequestMapping("/insert-comment")
 	public String insertComment(CommentForm commentForm, Model model) {
 		Comment comment = new Comment();
