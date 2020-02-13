@@ -37,9 +37,10 @@ public class ArticleRepository {
 		List<Article> articleList = new ArrayList<>();
 		int num = 0;
 		while(rs.next()) {
-			if(num != rs.getInt("id")) {
+			int id = rs.getInt("id");
+			if(num != id) {
 				article = new Article();
-				article.setId(rs.getInt("id"));
+				article.setId(id);
 				article.setName(rs.getString("name"));
 				article.setContent(rs.getString("content"));
 				commentList = new ArrayList<>();
@@ -52,6 +53,7 @@ public class ArticleRepository {
 			comment.setContent(rs.getString("com_content"));
 			comment.setArticleId(rs.getInt("article_id"));
 			commentList.add(comment);
+			num = id;
 		}
 		return articleList;
 	};
