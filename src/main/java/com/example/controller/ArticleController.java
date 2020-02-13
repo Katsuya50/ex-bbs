@@ -114,6 +114,18 @@ public class ArticleController {
 	}
 	
 	/**
+	 * 記事とコメントを一括削除するメソッド.
+	 * 
+	 * @param articleId 記事id
+	 * @return toIndexメソッドへリダイレクト
+	 */
+	@RequestMapping("/delete-article")
+	public String deleteArticleAndComment(String articleId) {
+		articleRepository.deleteOfAllByArticleId(Integer.parseInt(articleId));
+		return "redirect:/to-index";
+	}
+	
+	/**
 	 * リダイレクト用indexメソッドを呼ぶメソッド.
 	 * 
 	 * @param model リクエストスコープ
