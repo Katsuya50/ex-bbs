@@ -70,7 +70,7 @@ public class ArticleRepository {
 	 * 記事テーブルとコメントテーブルを結合して記事をリスト化して返す
 	 * 記事とコメントは新しい順に上から並べる
 	 * 
-	 * @return こめんとを紐づけた記事リスト
+	 * @return コメントを紐づけた記事リスト
 	 */
 	public List<Article> findAll() {
 		String sql = "SELECT a.id as id, a.name as name, a.content as content, "
@@ -100,6 +100,16 @@ public class ArticleRepository {
 	 */
 	public void deleteById(int articleId) {
 		String sql = "DELETE FROM " + ARTICLES_TABLE + " WHERE id = :articleId";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("articleId", articleId);
+		template.update(sql, param);
+	}
+	
+	public void deleteOfAllByArticleId(int articleId) {
+		String sql = "DELETE " + ARTICLES_TABLE + ", " + COMMENTS_TABLE + " "
+					+ "FROM " + ARTICLES_TABLE + " as a "
+					+ "LEFT OUTER JOIN " + COMMENTS_TABLE + " as c "
+					+ "ON a.id = c.article_id "
+					+ "WHERE a.id = :articleId";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("articleId", articleId);
 		template.update(sql, param);
 	}
