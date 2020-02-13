@@ -59,7 +59,7 @@ public class ArticleRepository {
 	/**
 	 * 記事の全件検索メソッド.
 	 * 記事テーブルとコメントテーブルを結合して記事をリスト化して返す
-	 * 記事は新しい順、コメントは古い順に上から並べる
+	 * 記事とコメントは新しい順に上から並べる
 	 * 
 	 * @return こめんとを紐づけた記事リスト
 	 */
@@ -67,7 +67,7 @@ public class ArticleRepository {
 		String sql = "SELECT a.id as id, a.name as name, a.content as content, "
 					+ "c.id as com_id, c.name as com_name, c.content as com_content, c.article_id as article_id "
 					+ "FROM " + TABLE_NAME_1 + " as a, " + TABLE_NAME_2 + " as c "
-					+ "WHERE a.id = c.article_id ORDER BY a.id DESC, c.id";
+					+ "WHERE a.id = c.article_id ORDER BY a.id DESC, c.id DESC";
 		List<Article> articleList = template.query(sql, ARTICLE_RS_EXTRACTOR);
 		return articleList;
 	}
