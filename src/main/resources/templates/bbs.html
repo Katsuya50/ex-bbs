@@ -32,8 +32,19 @@
 			<span th:text="${article.content}">投稿内容</span>
 		</div>
 		<div></div>
-		<div>
-			<span></span>
+		<div th:each="comment:${article.commentList}">
+			<div>
+				<span>コメントID:</span>
+				<span th:text="${comment.id}">0</span>
+			</div>
+			<div>
+				<span>コメント者名:</span>
+				<span th:text="${comment.name">0</span>
+			</div>
+			<div>
+				<span>コメント内容:</span>
+				<span th:text="${comment.content}">0</span>
+			</div>
 		</div>
 	</div>
 </body>
