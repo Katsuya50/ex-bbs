@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,8 +11,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Article;
+import com.example.domain.Comment;
 import com.example.form.ArticleForm;
+import com.example.form.CommentForm;
 import com.example.repository.ArticleRepository;
+import com.example.repository.CommentRepository;
 
 /**
  * 掲示板アプリのコントローラークラス.
@@ -25,11 +29,19 @@ import com.example.repository.ArticleRepository;
 public class ArticleController {
 	
 	@Autowired
-	private ArticleRepository repository;
+	private ArticleRepository articleRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
 	
 	@ModelAttribute
 	public ArticleForm setUpArticleForm() {
 		return new ArticleForm();
+	}
+	
+	@ModelAttribute
+	public CommentForm setUpCommentForm() {
+		return new CommentForm();
 	}
 	
 	/**
@@ -40,7 +52,7 @@ public class ArticleController {
 	 */
 	@RequestMapping("")
 	public String index(Model model) {
-		List<Article> articleList = repository.findAll();
+		List<Article> articleList = articleRepository.findAll();
 		model.addAttribute("articleList", articleList);
 		return "bbs";
 	}
@@ -55,10 +67,19 @@ public class ArticleController {
 	@RequestMapping("/insert-article")
 	public String insertArticle(ArticleForm articleForm, Model model) {
 		Article article = new Article();
-		article.setName(articleForm.getName());
-		article.setContent(articleForm.getContent());
-		repository.insert(article);
-		model.addAttribute("insertedMessage", "記事の投稿が完了しました。");
+		BeanUtils.copyProperties(articleForm, article);
+		articleRepository.insert(article);
+		model.addAttribute("insertedArticleMessage", "記事の投稿が完了しました。");
+		return index(model);
+	}
+	
+	@RequestMapping("/insert-comment")
+	public String insertComment(CommentForm commentForm, Model model) {
+		Comment comment = new Comment();
+		BeanUtils.copyProperties(commentForm, comment);
+		comment.setArticleId(Integer.parseInt(commentForm.getArticleId()));
+		commentRepository.insert(comment);
+		model.addAttribute("insertedCommentMessage", "コメントの投稿が完了しました。");
 		return index(model);
 	}
 
