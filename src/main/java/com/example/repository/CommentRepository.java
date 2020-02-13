@@ -8,14 +8,26 @@ import org.springframework.stereotype.Repository;
 
 import com.example.domain.Comment;
 
+/**
+ * commentsテーブルを操作するリポジトリクラス.
+ * 
+ * @author katsuya.fujishima
+ *
+ */
 @Repository
 public class CommentRepository {
 	
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
+	/**	テーブル名 */
 	private static final String TABLE_NAME = "comments";
 	
+	/**
+	 * コメントの情報を挿入するメソッド.
+	 * 
+	 * @param comment コメント
+	 */
 	public void insert(Comment comment) {
 		String sql = "INSERT INTO " + TABLE_NAME + " (name, content, article_id) "
 					+ "VALUES (:name, :content, :articleId)";
