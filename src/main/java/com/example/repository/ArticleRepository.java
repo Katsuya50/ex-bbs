@@ -104,6 +104,11 @@ public class ArticleRepository {
 		template.update(sql, param);
 	}
 	
+	/**
+	 * 記事とそのコメントを削除するメソッド.
+	 * 
+	 * @param articleId 記事のid
+	 */
 	public void deleteOfAllByArticleId(int articleId) {
 		String sql = "DELETE " + ARTICLES_TABLE + ", " + COMMENTS_TABLE + " "
 					+ "FROM " + ARTICLES_TABLE + " as a "
