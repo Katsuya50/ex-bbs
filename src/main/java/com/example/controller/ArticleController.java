@@ -47,7 +47,12 @@ public class ArticleController {
 	
 	@RequestMapping("/insert-article")
 	public String insertArticle(ArticleForm articleForm, Model model) {
-		
+		Article article = new Article();
+		article.setName(articleForm.getName());
+		article.setContent(articleForm.getContent());
+		repository.insert(article);
+		model.addAttribute("insertedMessage", "記事の投稿が完了しました。");
+		return index(model);
 	}
 
 }
