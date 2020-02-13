@@ -15,11 +15,10 @@
 		name="content" th:field="*{content}"></textarea><br>
 		<button>記事投稿</button>
 	</form>
-	<span th:text="${insertedMessage}"></span>
-	
-	<hr>
+	<span th:text="${insertedArticleMessage}"></span>
 	
 	<div th:each="article:${articleList}">
+		<hr>
 		<div>
 			<span>投稿ID:</span>
 			<span th:text="${article.id}">0</span>
@@ -46,7 +45,16 @@
 				<span>コメント内容:</span>
 				<span th:text="${comment.content}">こめんと</span>
 			</div><br>
-		</div><br><br>
+		</div>
+		<form action="bbs.html" th:action="@{/insert-comment}" method="post"
+		th:object="${commentForm}">
+			<label for="comment-name">名前:</label><br>
+			<input id="comment-name" name="name" th:field="*{name}"><br>
+			<label for="comment-content">コメント:</label><br>
+			<textarea id="comment-content" rows="3" cols="25"
+			name="content" th:field="*{content}"></textarea><br>
+			<button name="articleId" th:value="${article.id}">記事投稿</button>
+		</form><br>
 	</div>
 </body>
 </html>
