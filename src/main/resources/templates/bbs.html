@@ -38,7 +38,7 @@
 			<span>投稿内容:</span>
 			<span th:text="${article.content}">とうこう</span>
 		</div>
-		<form action="bbs.html" th:action="@{/delete-article}" method="post">
+		<form action="bbs.html" th:action="@{/delete-article-and-comment}" method="post">
 			<input type="hidden" name="articleId" th:value="${article.id}">
 			<button>記事削除</button>
 		</form>

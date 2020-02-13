@@ -119,7 +119,7 @@ public class ArticleController {
 	 * @param articleId 記事id
 	 * @return toIndexメソッドへリダイレクト
 	 */
-	@RequestMapping("/delete-article")
+	@RequestMapping("/delete-article-and-comment")
 	public String deleteArticleAndComment(String articleId) {
 		articleRepository.deleteOfAllByArticleId(Integer.parseInt(articleId));
 		return "redirect:/to-index";
