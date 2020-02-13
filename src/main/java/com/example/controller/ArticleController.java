@@ -45,6 +45,13 @@ public class ArticleController {
 		return "bbs";
 	}
 	
+	/**
+	 * 記事の投稿をするメソッド.
+	 * 
+	 * @param articleForm ブラウザから受け取ったフォームクラス
+	 * @param model リクエストスコープ
+	 * @return indexメソッド
+	 */
 	@RequestMapping("/insert-article")
 	public String insertArticle(ArticleForm articleForm, Model model) {
 		Article article = new Article();
