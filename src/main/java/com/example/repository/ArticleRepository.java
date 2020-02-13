@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.example.domain.Article;
@@ -31,15 +33,15 @@ public class ArticleRepository {
 
 	/**	コメントをリスト化、記事ドメインに全てのプロパティを格納してリストとして返すエクストラクター */
 	private static final ResultSetExtractor<List<Article>> ARTICLE_RS_EXTRACTOR = (rs) -> {
-		Article article = null;
-		Comment comment = null;
-		List<Comment> commentList = null;
+//		Article article = null;
+//		Comment comment = null;
 		List<Article> articleList = new ArrayList<>();
 		int num = 0;
 		while(rs.next()) {
+			List<Comment> commentList = null;
 			int id = rs.getInt("id");
 			if(num != id) {
-				article = new Article();
+				Article article = new Article();
 				article.setId(id);
 				article.setName(rs.getString("name"));
 				article.setContent(rs.getString("content"));
@@ -47,7 +49,7 @@ public class ArticleRepository {
 				article.setCommentList(commentList);
 				articleList.add(article);
 			}
-			comment = new Comment();
+			Comment comment = new Comment();
 			comment.setId(rs.getInt("com_id"));
 			comment.setName(rs.getString("com_name"));
 			comment.setContent(rs.getString("com_content"));
@@ -72,6 +74,18 @@ public class ArticleRepository {
 					+ "WHERE a.id = c.article_id ORDER BY a.id DESC, c.id DESC";
 		List<Article> articleList = template.query(sql, ARTICLE_RS_EXTRACTOR);
 		return articleList;
+	}
+	
+	/**
+	 * 記事を挿入するメソッド.
+	 * 
+	 * @param article 記事
+	 */
+	public void insert(Article article) {
+		String sql = "INSERT INTO " + TABLE_NAME_1 + " (name, content) VALUES (:name, :content)";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("name", article.getName()).addValue("content", article.getContent());
+		template.update(sql, param);
 	}
 
 }
