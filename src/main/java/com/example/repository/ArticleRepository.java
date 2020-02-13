@@ -109,12 +109,12 @@ public class ArticleRepository {
 	 * 
 	 * @param articleId 記事のid
 	 */
-	public void deleteOfAllByArticleId(int articleId) {
-		String sql = "DELETE " + ARTICLES_TABLE + ", " + COMMENTS_TABLE + " "
-					+ "FROM " + ARTICLES_TABLE + " as a "
-					+ "LEFT OUTER JOIN " + COMMENTS_TABLE + " as c "
-					+ "ON a.id = c.article_id "
-					+ "WHERE a.id = :articleId";
+	public void deleteArticleAndCommentByArticleId(int articleId) {
+		String sql = "WITH t AS ("
+					+ "DELETE FROM " + COMMENTS_TABLE + " "
+					+ "WHERE article_id = :articleId) "
+					+ "DELETE FROM " + ARTICLES_TABLE + " "
+					+ "WHERE id = :articleId";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("articleId", articleId);
 		template.update(sql, param);
 	}

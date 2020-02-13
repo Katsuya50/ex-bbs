@@ -121,7 +121,7 @@ public class ArticleController {
 	 */
 	@RequestMapping("/delete-article-and-comment")
 	public String deleteArticleAndComment(String articleId) {
-		articleRepository.deleteOfAllByArticleId(Integer.parseInt(articleId));
+		articleRepository.deleteArticleAndCommentByArticleId(Integer.parseInt(articleId));
 		return "redirect:/to-index";
 	}
 	
