@@ -110,11 +110,12 @@ public class ArticleRepository {
 	 * @param articleId 記事のid
 	 */
 	public void deleteArticleAndCommentByArticleId(int articleId) {
-		String sql = "WITH t AS ("
+		String sql = "WITH deleted AS ("
 					+ "DELETE FROM " + COMMENTS_TABLE + " "
-					+ "WHERE article_id = :articleId) "
+					+ "WHERE article_id = :articleId "
+					+ "RETURNING article_id) "
 					+ "DELETE FROM " + ARTICLES_TABLE + " "
-					+ "WHERE id = :articleId";
+					+ "WHERE id IN (SELECT article_id FROM deleted)";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("articleId", articleId);
 		template.update(sql, param);
 	}

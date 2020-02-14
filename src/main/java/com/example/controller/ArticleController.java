@@ -89,7 +89,6 @@ public class ArticleController {
 	public String insertComment(@Validated CommentForm commentForm, BindingResult result, Model model) {
 		if(result.hasErrors()) {
 			model.addAttribute("articleId", Integer.parseInt(commentForm.getArticleId()));
-			System.out.println(commentForm.getArticleId());
 			return index(model);
 		}
 		Comment comment = new Comment();
