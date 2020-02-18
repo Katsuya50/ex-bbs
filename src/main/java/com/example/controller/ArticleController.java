@@ -1,6 +1,9 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Article;
 import com.example.domain.Comment;
+import com.example.domain.Like;
 import com.example.form.ArticleForm;
 import com.example.form.CommentForm;
 import com.example.repository.ArticleRepository;
@@ -35,6 +39,9 @@ public class ArticleController {
 	
 	@Autowired
 	private CommentRepository commentRepository;
+	
+	@Autowired
+	private ServletContext application;
 	
 	@ModelAttribute
 	public ArticleForm setUpArticleForm() {
@@ -66,6 +73,7 @@ public class ArticleController {
 	 * @param model リクエストスコープ
 	 * @return toIndexメソッドへリダイレクト
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/insert-article")
 	public String insertArticle(@Validated ArticleForm articleForm, BindingResult result, Model model) {
 		if(result.hasErrors()) {
@@ -75,6 +83,17 @@ public class ArticleController {
 		BeanUtils.copyProperties(articleForm, article);
 		articleRepository.insert(article);
 		model.addAttribute("insertedArticleMessage", "記事の投稿が完了しました。");
+		List<Article> articleList = articleRepository.findAll();
+		List<Like> likeCountList = (List<Like>) application.getAttribute("likeCountList");
+		if(likeCountList == null) {
+			likeCountList = new ArrayList<>();
+		}
+		Like like = new Like();
+		like.setArticleId(articleList.get(articleList.size()-1).getId());
+		like.setLikeCount(0);
+		System.out.println(like);
+		likeCountList.add(like);
+		application.setAttribute("likeCountList", likeCountList);
 		return "redirect:/to-index";
 	}
 	
