@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <style>
 	.error{
 		color:red;
@@ -41,6 +42,8 @@
 		<form action="bbs.html" th:action="@{/delete-article-and-comment}" method="post">
 			<input type="hidden" name="articleId" th:value="${article.id}">
 			<button>記事削除</button>
+			<button class="likeBtn" th:value="${article.id}" type="button"><span class="far fa-thumbs-up"></span></button>
+			<span th:id="'likeCount' + ${article.id}">0</span>
 		</form>
 		<br>
 		<div th:each="comment:${article.commentList}">
@@ -70,5 +73,8 @@
 			<button>コメント投稿</button>
 		</form><br>
 	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script th:src="@{/js/like.js}"></script>
 </body>
 </html>
